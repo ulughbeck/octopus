@@ -163,14 +163,14 @@ Shop
   └─Checkout
 ```
 
-Also, we want the global argument `shop` with the value `catalog` to refer to a tab bar state.
+Also, we want the global argument `tab` with the value `catalog` to refer to a tab bar state.
 
 Let's create the following state to represent our expectations:
 
 ```dart
 final state = OctopusState(
   intention: OctopusStateIntention.auto,
-  arguments: <String, String>{'shop': 'catalog'},
+  arguments: <String, String>{'tab': 'catalog'},
   children: <OctopusNode>[
     OctopusNode(
       name: 'home',

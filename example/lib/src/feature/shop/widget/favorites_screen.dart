@@ -4,19 +4,9 @@ import 'package:example/src/feature/shop/model/product.dart';
 import 'package:example/src/feature/shop/widget/category_screen.dart';
 import 'package:example/src/feature/shop/widget/shop_back_button.dart';
 import 'package:example/src/feature/shop/widget/shop_scope.dart';
+import 'package:example/src/feature/shop/widget/shop_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:octopus/octopus.dart';
-
-/// {@template favorites_tab}
-/// FavoritesTab widget.
-/// {@endtemplate}
-class FavoritesTab extends StatelessWidget {
-  /// {@macro favorites_tab}
-  const FavoritesTab({super.key});
-
-  @override
-  Widget build(BuildContext context) => const FavoritesScreen();
-}
 
 /// {@template favorites_screen}
 /// FavoritesScreen widget.
@@ -70,14 +60,15 @@ class FavoritesScreen extends StatelessWidget {
                   products: products,
                   onTap: (context, product) {
                     context.octopus.setState((state) {
-                      final node = state.find((n) => n.name == 'catalog-tab');
+                      final node =
+                          state.find((n) => n.name == ShopScreen.catalogTab);
                       if (node == null) {
                         return state
                           ..removeByName(Routes.shop.name)
                           ..add(Routes.shop.node(
                             children: <OctopusNode>[
                               OctopusNode.mutable(
-                                'catalog-tab',
+                                ShopScreen.catalogTab,
                                 children: [
                                   Routes.catalog.node(),
                                   Routes.product.node(
@@ -87,7 +78,8 @@ class FavoritesScreen extends StatelessWidget {
                               ),
                             ],
                           ))
-                          ..arguments['shop'] = 'catalog';
+                          ..arguments[ShopScreen.tabIdentifier] =
+                              Routes.catalog.name;
                       }
                       node.children
                         ..removeWhere((e) =>
@@ -96,7 +88,9 @@ class FavoritesScreen extends StatelessWidget {
                         ..add(Routes.product.node(
                           arguments: {'id': product.id.toString()},
                         ));
-                      return state..arguments['shop'] = 'catalog';
+                      return state
+                        ..arguments[ShopScreen.tabIdentifier] =
+                            Routes.catalog.name;
                     });
                   }),
             ),

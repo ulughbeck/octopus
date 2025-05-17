@@ -7,22 +7,6 @@ import 'package:example/src/feature/shop/widget/shop_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:octopus/octopus.dart';
 
-/// {@template basket_tab}
-/// BasketTab widget.
-/// {@endtemplate}
-class BasketTab extends StatelessWidget {
-  /// {@macro basket_tab}
-  const BasketTab({super.key});
-
-  @override
-  Widget build(BuildContext context) => BucketNavigator(
-        bucket: '${ShopTabsEnum.basket}-tab',
-        // Handles back button only if the current route is the basket screen
-        shouldHandleBackButton: (_) =>
-            Octopus.instance.state.arguments['shop'] == 'basket',
-      );
-}
-
 /// {@template basket_screen}
 /// BasketScreen widget.
 /// {@endtemplate}
@@ -104,7 +88,7 @@ class BasketScreen extends StatelessWidget {
                       child: ElevatedButton.icon(
                         onPressed: () => context.octopus.setState((state) =>
                             state
-                              ..findByName('basket-tab')
+                              ..findByName(ShopScreen.basketTab)
                                   ?.add(Routes.checkout.node())),
                         label: const Text(
                           'Checkout',

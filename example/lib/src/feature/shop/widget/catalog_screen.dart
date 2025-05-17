@@ -14,22 +14,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:octopus/octopus.dart';
 
-/// {@template catalog_tab}
-/// CatalogTab widget.
-/// {@endtemplate}
-class CatalogTab extends StatelessWidget {
-  /// {@macro catalog_tab}
-  const CatalogTab({super.key});
-
-  @override
-  Widget build(BuildContext context) => BucketNavigator(
-        bucket: '${ShopTabsEnum.catalog}-tab',
-        // Handles back button only if the current route is the catalog screen
-        shouldHandleBackButton: (_) =>
-            Octopus.instance.state.arguments['shop'] == 'catalog',
-      );
-}
-
 /// {@template catalog_screen}
 /// CatalogScreen widget.
 /// {@endtemplate}
@@ -204,13 +188,13 @@ class _CatalogTile extends StatelessWidget {
                 Routes.shop.node,
               )
               .putIfAbsent(
-                'catalog-tab',
-                () => OctopusNode.mutable('catalog-tab'),
+                ShopScreen.catalogTab,
+                () => OctopusNode.mutable(ShopScreen.catalogTab),
               )
             ..putIfAbsent(Routes.catalog.name, Routes.catalog.node)
             ..add(Routes.category.node(arguments: {'id': category.id}));
           // Switch to the `catalog` tab
-          return state..arguments['shop'] = 'catalog';
+          return state..arguments[ShopScreen.tabIdentifier] = 'catalog';
         }),
       );
 }

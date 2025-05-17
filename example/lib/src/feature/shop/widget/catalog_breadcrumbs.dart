@@ -1,5 +1,6 @@
 import 'package:example/src/common/router/routes.dart';
 import 'package:example/src/feature/shop/widget/shop_scope.dart';
+import 'package:example/src/feature/shop/widget/shop_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:octopus/octopus.dart';
@@ -133,7 +134,7 @@ class _CatalogBreadcrumbsState extends State<CatalogBreadcrumbs> {
 
     void goToCatalog() => _router.setState(
           (state) => state
-            ..arguments['shop'] = 'catalog'
+            ..arguments[ShopScreen.tabIdentifier] = 'catalog'
             ..removeByName(Routes.category.name)
             ..removeByName(Routes.product.name),
         );
@@ -142,7 +143,7 @@ class _CatalogBreadcrumbsState extends State<CatalogBreadcrumbs> {
       final doNotPop = <String>{...categories.takeWhile((e) => e != id), id};
       _router.setState(
         (state) => state
-          ..arguments['shop'] = 'catalog'
+          ..arguments[ShopScreen.tabIdentifier] = Routes.catalog.name
           ..removeWhere((node) =>
               node.name == Routes.product.name ||
               (node.name == Routes.category.name &&
@@ -155,7 +156,7 @@ class _CatalogBreadcrumbsState extends State<CatalogBreadcrumbs> {
       if (doNotPop.isEmpty) return; // Do nothing
       _router.setState(
         (state) => state
-          ..arguments['shop'] = 'catalog'
+          ..arguments[ShopScreen.tabIdentifier] = Routes.catalog.name
           ..removeWhere((node) =>
               node.name == Routes.category.name &&
               !doNotPop.contains(node.arguments['id'])),

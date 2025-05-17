@@ -18,7 +18,7 @@ class CheckoutScreen extends StatelessWidget {
   void pay(BuildContext context) {
     context.octopus.setState((state) => state
       ..removeByName(Routes.checkout.name)
-      ..arguments['shop'] = ShopTabsEnum.catalog.name);
+      ..arguments[ShopScreen.tabIdentifier] = Routes.catalog.name);
     ScaffoldMessenger.maybeOf(context)?.showSnackBar(
       const SnackBar(
         content: Text('Payment successful'),

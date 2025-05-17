@@ -9,6 +9,7 @@ import 'package:example/src/feature/shop/model/product.dart';
 import 'package:example/src/feature/shop/widget/catalog_breadcrumbs.dart';
 import 'package:example/src/feature/shop/widget/shop_back_button.dart';
 import 'package:example/src/feature/shop/widget/shop_scope.dart';
+import 'package:example/src/feature/shop/widget/shop_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:octopus/octopus.dart';
@@ -109,7 +110,7 @@ class CategoriesSliverListView extends StatelessWidget {
                 key: ValueKey<CategoryID>(category.id),
                 title: Text(category.title),
                 onTap: () => context.octopus.setState((state) => state
-                  ..findByName('catalog-tab')?.add(Routes.category.node(
+                  ..findByName(ShopScreen.catalogTab)?.add(Routes.category.node(
                     arguments: <String, String>{'id': category.id},
                   ))),
               );
@@ -249,10 +250,10 @@ class _ProductTile extends StatelessWidget {
                 highlightColor: theme.highlightColor,
                 onTap: () => onTap == null
                     ? context.octopus.setState((state) => state
-                      ..findByName('catalog-tab')?.add(Routes.product.node(
-                          arguments: <String, String>{
-                            'id': product.id.toString()
-                          })))
+                      ..findByName(ShopScreen.catalogTab)?.add(Routes.product
+                          .node(arguments: <String, String>{
+                        'id': product.id.toString()
+                      })))
                     : onTap?.call(context, product),
               ),
             ),

@@ -30,7 +30,7 @@ mixin RouterStateMixin<T extends StatefulWidget> on State<T> {
     // Create router.
     router = Octopus(
       routes: Routes.values,
-      defaultRoute: Routes.home,
+      defaultRoute: Routes.shop,
       transitionDelegate: const DefaultTransitionDelegate<void>(),
       guards: <IOctopusGuard>[
         // Check authentication.

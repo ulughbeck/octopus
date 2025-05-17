@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:example/src/common/router/routes.dart';
+import 'package:example/src/feature/shop/widget/shop_screen.dart';
 import 'package:octopus/octopus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,15 +18,17 @@ class ShopTabsCacheService {
   /// Save nested navigation to cache
   Future<void> save(OctopusState state) async {
     try {
-      final argument = state.arguments['shop'];
+      final argument = state.arguments[ShopScreen.tabIdentifier];
       final shop = state.findByName(Routes.shop.name);
       if (shop == null) return;
-      final catalog = shop.findByName('catalog-tab');
-      final basket = shop.findByName('basket-tab');
+      final catalog = shop.findByName('catalog-${ShopScreen.tabIdentifier}');
+      final basket = shop.findByName('basket-${ShopScreen.tabIdentifier}');
+      final favorite = shop.findByName('favorites-${ShopScreen.tabIdentifier}');
       final json = <String, Object?>{
-        if (argument != null) 'tab': argument,
+        if (argument != null) ShopScreen.tabIdentifier: argument,
         if (catalog != null) 'catalog': catalog.toJson(),
         if (basket != null) 'basket': basket.toJson(),
+        if (favorite != null) 'favorites': favorite.toJson(),
       };
       if (json.isEmpty) return;
       await _prefs.setString(_key, jsonEncode(json));
@@ -41,11 +44,17 @@ class ShopTabsCacheService {
       if (jsonRaw == null) return null;
       final json = jsonDecode(jsonRaw);
       if (json case Map<String, Object?> data) {
-        if (data['tab'] case String tab) state.arguments['shop'] = tab;
+        if (data[ShopScreen.tabIdentifier] case String tab)
+          state.arguments[ShopScreen.tabIdentifier] = tab;
         if (data['catalog'] case Map<String, Object?> catalog)
-          shop.putIfAbsent('catalog-tab', () => OctopusNode.fromJson(catalog));
+          shop.putIfAbsent('catalog-${ShopScreen.tabIdentifier}',
+              () => OctopusNode.fromJson(catalog));
         if (data['basket'] case Map<String, Object?> basket)
-          shop.putIfAbsent('basket-tab', () => OctopusNode.fromJson(basket));
+          shop.putIfAbsent('basket-${ShopScreen.tabIdentifier}',
+              () => OctopusNode.fromJson(basket));
+        if (data['favorites'] case Map<String, Object?> favorite)
+          shop.putIfAbsent('favorites-${ShopScreen.tabIdentifier}',
+              () => OctopusNode.fromJson(favorite));
         return state;
       }
     } on Object {/* ignore */}
